@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  .root {
+    
+  }
+  .custom-color1 {
+    background: var(
+      --basic,
+      linear-gradient(223deg, #f9bc37 1.55%, #f0c974 98.45%)
+    );
+  }
+
+  .custom-color2 {
+    background: var(
+      --tax-fee,
+      linear-gradient(223deg, #9e37f9 1.55%, #b674f0 98.45%)
+    );
+  }
+  .selected {
+    border-radius: 16px; 
+    border: 1px solid
+  }
+}

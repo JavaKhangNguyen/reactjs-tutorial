@@ -2,12 +2,12 @@
 import React, { forwardRef } from "react";
 import { cn } from "@/lib/utils";
 import { Loading } from "@/components/ui";
-import { cva, type VariantProps } from "class-variance-authority";
+import { cva } from "class-variance-authority";
 import { CircleCheck, TriangleAlert } from "lucide-react";
 
 const inputVariants = cva(
   [
-    "file:text-foreground pl-2 placeholder:text-grayscale-700 text-white selection:bg-blue-500 selection:text-primary-foreground aria-invalid:outline-destructive/60 aria-invalid:ring-destructive/20 dark:aria-invalid:outline-destructive dark:aria-invalid:ring-destructive/50 ring-ring/10 dark:ring-ring/20 dark:outline-ring/40 outline-ring/50 aria-invalid:outline-destructive/60 dark:aria-invalid:outline-destructive dark:aria-invalid:ring-destructive/40 aria-invalid:ring-destructive/20 aria-invalid:border-destructive/60 dark:aria-invalid:border-destructive h-9 w-full min-w-0 rounded-md border-none text-base shadow-xs transition-[color,box-shadow] file:inline-flex file:h-7 file:bg-transparent file:text-sm file:font-medium focus:border-secondary-300 focus:outline focus:outline-secondary-300 focus-visible:outline-1 disabled:pointer-events-none disabled:cursor-not-allowed disabled:text-grayscale-500 aria-invalid:focus-visible:ring-[3px] aria-invalid:focus-visible:outline-none md:text-sm dark:aria-invalid:focus-visible:ring-4 after:text-secondary-300 after:content-[*]",
+    "file:text-foreground pl-2 placeholder:text-grayscale-700 text-white selection:bg-blue-500 selection:text-primary-foreground aria-invalid:outline-destructive/60 aria-invalid:ring-destructive/20 dark:aria-invalid:outline-destructive dark:aria-invalid:ring-destructive/50 ring-ring/10 dark:ring-ring/20 dark:outline-ring/40 outline-ring/50 aria-invalid:outline-destructive/60 dark:aria-invalid:outline-destructive dark:aria-invalid:ring-destructive/40 aria-invalid:ring-destructive/20 aria-invalid:border-destructive/60 dark:aria-invalid:border-destructive h-10 w-full min-w-0 border-none text-base shadow-xs transition-[color,box-shadow] file:inline-flex file:h-7 file:bg-transparent file:text-sm file:font-medium focus:border-secondary-300 focus:outline focus:outline-secondary-300 focus-visible:outline-1 disabled:pointer-events-none disabled:cursor-not-allowed disabled:text-grayscale-500 aria-invalid:focus-visible:ring-[3px] aria-invalid:focus-visible:outline-none md:text-sm dark:aria-invalid:focus-visible:ring-4 after:text-secondary-300 after:content-[*]",
   ],
   {
     variants: {
@@ -16,14 +16,19 @@ const inputVariants = cva(
         success: "bg-success-1000 border-success-600 focus:border-success-600 outline-success-600 focus:outline-success-600",
         error: "bg-error-1000 border-error-600 focus:border-error-600 outline-error-600 focus:outline-error-600",
       },
+      rounded: {
+        default: "rounded-md",
+        none: "rounded-none",
+        custom: "", 
+      },
     },
     defaultVariants: {
       color: "default",
+      rounded: "default",
     },
   }
 );
 
-type InputVariantProps = VariantProps<typeof inputVariants>;
 
 interface BaseInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
@@ -35,9 +40,10 @@ interface BaseInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   icon?: React.JSX.Element;
   iconLeft?: boolean;
   iconRight?: boolean;
+  rounded?: "default" | "none" | "custom"; 
 }
 
-export type InputProps = BaseInputProps & InputVariantProps;
+export type InputProps = BaseInputProps & React.ComponentProps<"input">;
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
   {
@@ -53,15 +59,16 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
     icon,
     iconLeft,
     iconRight,
+    rounded = "default", 
     ...props
   }: InputProps,
   ref
 ) {
 
-  const getInputColor = () => {
+  const getInputColor = (): "default" | "success" | "error" => {
     if (success) return "success";
     if (error) return "error";
-    return "default";
+    return (color as "default" | "success" | "error") || "default";
   };
 
   const getStatusIcon = () => {
@@ -89,7 +96,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
             type={type}
             ref={ref}
             data-slot="input"
-            className={cn(inputVariants({ color: getInputColor() }), iconLeft && "pl-8")}
+            className={cn(inputVariants({color: getInputColor() , rounded: rounded }), iconLeft && "pl-8", className)}
             disabled={loading || props.disabled}
             required={required}
             aria-invalid={error ? "true" : "false"}
@@ -105,7 +112,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
           
           {/* Right icon */}
           {icon && iconRight && (
-            <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-2">
+            <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-2 pointer-events-none">
               {shouldShowStatusIcon ? getStatusIcon() : icon}                  
             </div>
           )}

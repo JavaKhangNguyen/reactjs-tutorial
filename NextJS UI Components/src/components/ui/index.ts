@@ -3,10 +3,9 @@ export * from './loading';
 export * from './textarea';
 export * from './input';
 export * from './input-pass';
-export * from './dialog';
 export * from './command';
+export * from './dialog';
 export * from './popover';
 export * from './scroll-area';
-export * from './toast';
-export * from './toaster';
-export * from './phoneinput';
+export * from './phone-input';
+export * from './label'

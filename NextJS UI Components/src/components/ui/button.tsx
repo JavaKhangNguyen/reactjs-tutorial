@@ -15,7 +15,7 @@ const buttonVariants = cva(
       size: {
         xl: "min-w-fit h-14 px-8 py-4 text-b2-bold",
         lg: "min-w-fit h-12 px-6 py-3 text-b2-bold",
-        sm: "min-w-[117px] h-10 px-2.5 py-5 text-sm-btn-regular",
+        sm: "min-w-[84px] h-10 px-2.5 py-5 text-sm-btn-regular",
         "icon-xl": "size-14 gap-2 p-4",
         "icon-lg": "size-12 gap-2 p-4",
         "icon-sm": "size-10 gap-1.5 p-2.5",
